@@ -12,7 +12,7 @@
     <ContentPage.Content>
         <sfChat:SfChat x:Name="sfChat"
                        Messages="{Binding Messages}"
-                       SendMessage="SfChat_SendMessage"
+                       SendMessageCommand="{Binding SendMessageCommand}"
                        CurrentUser="{Binding CurrentUser}" />
     </ContentPage.Content>
 </ContentPage>

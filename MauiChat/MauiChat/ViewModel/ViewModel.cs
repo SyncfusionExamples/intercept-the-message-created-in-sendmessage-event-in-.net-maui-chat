@@ -21,11 +21,14 @@ namespace MauiChat
         /// </summary>
         private Author currentUser;
 
+        public ICommand SendMessageCommand { get; set; }
+
         public GettingStartedViewModel()
         {
             this.messages = new ObservableCollection<object>();
             this.currentUser = new Author() { Name = "Nancy" };
             this.GenerateMessages();
+            SendMessageCommand = new Command(ExecuteSendMessageCommand);
         }
 
         /// <summary>
@@ -109,5 +112,23 @@ namespace MauiChat
                 Text = "We should develop this app in .NET MAUI, since it provides native experience and performance.\",",
             });
         }
+
+        private void ExecuteSendMessageCommand(object obj)
+        {
+            // Skips adding new message in Messages collection.
+            var eventArgs = obj as Syncfusion.Maui.Chat.SendMessageEventArgs;
+            eventArgs!.Handled = true;
+
+            // Retrieve message using SendMessageEventArgs.Message.
+            // Now add the actual sent message into collection as required.
+            var message = eventArgs.Message;
+            if (message != null) { this.Messages.Add(message); }
+
+            // You can add the special message into collection as like below.
+            TextMessage textMessage = new TextMessage() { Author = this.CurrentUser };
+            textMessage.Text = "Special Message";
+            this.Messages.Add(textMessage);
+        }
+
     }
 }
